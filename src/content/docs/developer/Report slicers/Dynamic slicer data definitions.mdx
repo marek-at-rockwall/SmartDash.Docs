@@ -90,9 +90,9 @@ Note that a name "Slicer THREE" would also result in property name of "slicerTHR
 </Aside>
 
 ### Complete format example
-To see an example of a complete JavaScript definition object format see [this page](/docs/designers/slicers/fullExample).
+To see an example of a complete JavaScript definition object format see [this page](/reference/report-slicers/full-example/).
 
-For a complete list of available properties if the slicer definition objects [go here](/docs/designers/slicers/objectProperties).
+For a complete list of available properties if the slicer definition objects [go here](/reference/report-slicers/object-properties/).
 
 
 ### Slicer object format
@@ -110,7 +110,7 @@ The basic required property is called `selectConditions` and defines one or more
 
 The value in this list is a **single string** which is expected to contain:
 - At least once the keyword `value`. This keyword represents the value from the list of slicer values that will be tested. The value in the list will be pre-selected if the result of the expression after evaluation is `true`.
-- Usually a combination of one or more [allowed functions](/docs/designers/slicers/allowedFunctions).
+- Usually a combination of one or more [allowed functions](/reference/report-slicers/allowed-functions/).
 - One or more comparison operators: `<, >, =, !=, <=, >=`
 - One or more logical operators `&&, ||`
 - Grouping parentheses `(, )`
@@ -127,7 +127,7 @@ The `expression` returns an array of dates which may match (some of) the dates t
 Note though, that if the expression returns items that are not found in the underlying table it will add them to the end o the list, out of order. That is currently how Power BI unfortunately behaves, giving no tools to re-sort that list.
 
 
-Please see the complete list of available object properties [here](/docs/designers/slicers/objectProperties).
+Please see the complete list of available object properties [here](/reference/report-slicers/object-properties/).
 
 #### Basic - For single value-type slicers
 A single value-type slicers are for example date slicers and date range slicers which have two slicer fields where, however, each one only contains a single value.
@@ -195,4 +195,4 @@ This approach makes sure that you cannot make a mistake. The definition will alw
 Indeed, if the user happens to open the page containing the slicer A with a dynamic data definition and then another page containing the a linked slicer (slicer B), then the dynamic data value will be propagated from slicer A to slicer B. However, should the user open only or first the page containing slicer B than that slicer would keep its value as defined originally in the report design and would NOT contain the dynamic value. To ensure that you MUST create the dynamic data definition for slicer B as well, which should be done by setting its `same_as` property in the definition.
 </Aside>
 
-To see how to use the `same_as` property please refer to the [Object properties](http://localhost:4321/reference/report-slicers/object-properties) page in the Reference section.
+To see how to use the `same_as` property please refer to the [Object properties](/reference/report-slicers/object-properties/) page in the Reference section.
