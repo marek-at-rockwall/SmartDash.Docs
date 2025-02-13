@@ -101,8 +101,8 @@ NOTE THAT you can use, if useful, a variable called `originalValue` within the `
 </Aside>
 
 
-## Definition reuse
-There will be cases where you need the same slicers with the same values on different report pages. This is actually **necessary for all linked slicers** unless their dynamic values are set on the 'Cover' page and are at the same time hidden on all the other pages where they are used.
+## Definition reuse using the `same_as` property
+There will be cases where you need the same slicers with the same values on different report pages. This is actually **necessary for all linked slicers** unless their dynamic values are set on the 'Cover' page and are at the same time hidden on all the other pages where they are reused (linked).
 
 In order not to have to repeat the same definitions for multiple slicers on different pages (or even the same page) you can utilize a property called `same_as`. This property lets you set in the root of a page definition or per slicer that its dynamic data definition is the same as a slicer already defined previously in the JavaScript definition object. That way you also avoid the cases where you could otherwise change the definition of one and forget to change it for the other(s).
 
@@ -111,7 +111,7 @@ Here is how to do this:
 ### If your slicers names are identical between the pages
 If you want to reuse the definitions for dynamic slicer data on another page and all the slicers that are to contain dynamic data have the exact same names on the other page, use the **`same_as` property at the root level of that page's definition** like so:
 
-```js {11-15}
+```js ins={11-15}
 {
   slicers: {
     page1: {
@@ -135,9 +135,9 @@ If you want to reuse the definitions for dynamic slicer data on another page and
 
 
 ### If your slicer names are different between the pages
-To reuse the definition of a slicer from another page where the slicer has a different name than the slicer we want to define as having the same dynamic value, put the `same_as` property into the definition of the slicer like so:
+To reuse the definition of a slicer from another page where the slicer has a different name than the slicer we want to define as having the same dynamic value, put the `same_as` property into the definition of the slicer to be duplicated like so:
 
-```js {11-18}
+```js ins={11-18}
 {
   slicers: {
     page1: {
@@ -160,4 +160,4 @@ To reuse the definition of a slicer from another page where the slicer has a dif
 }
 ```
 
-  **The value of the `same_as` property** here, when it is found at the slicer definition level  **is a simple array**. Same as in the note for the previous slicer types above the first string represents the page containing the slicer whose definition is to be dynamically copied and **the second property** is the name of the actual slicer on that source page whose dynamic data definition we are instructing the program to copy.
+  **The value of the `same_as` property** here, when it is found at the slicer definition level  **is a simple array** with always only two members. Same as in the note for the previous slicer type above the first string represents the name of the source report page containing the slicer whose definition is to be dynamically copied and **the second member of the array** has to match the name of the actual slicer on that source page whose dynamic data definition we are instructing the program to reuse.

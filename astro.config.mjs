@@ -6,7 +6,9 @@ import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
-    integrations: [
+	site: "https://marek-at-rockwall.github.io/SmartDash.Docs/dist",
+	base: "/",
+	integrations: [
 		starlight({
 			title: "docs",
 			description: "The user and report developer documentation for the SmartDash.app providing advanced financial dashboards that give you clear and in-depth relevant information regarding your business financial standing.",
@@ -87,7 +89,8 @@ export default defineConfig({
 						},
 						{
 							label: 'Documentation reference',
-							link: 'reference/documentation-reference'
+							link: 'reference/documentation-reference',
+							attrs: { style: 'font-style: italic'}
 						}
 					],
 				},
