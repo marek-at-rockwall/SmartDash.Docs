@@ -16,6 +16,7 @@ This page provides links to the documentation of this very documentation site te
 
 - [Starlight Showcases](https://starlight-showcases.vercel.app/components/profiles/) - components to author showcase pages for your documentation.
     - [Demo](https://starlight-showcases.vercel.app/demo/)
+- [Starligh Blog](https://starlight-blog-docs.vercel.app/getting-started/) - adds a blog site to the docs system.
 
 ### Plugins
 
