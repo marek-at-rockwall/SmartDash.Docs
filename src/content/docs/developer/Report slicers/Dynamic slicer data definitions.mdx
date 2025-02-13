@@ -1,0 +1,183 @@
+---
+title: Dynamic slicer definition
+description: Covers report slicer dynamic data JavaScript object definition and its format.
+keywords: ["report slicers", "report", "JavaScript", "object"]
+---
+
+import { Steps, Aside, Code } from '@astrojs/starlight/components';
+
+The SmartDash interface allows the report designers to define what value a specific slicer should hold upon opening the report or what items in specific report list slicers should be pre-selected dynamically based on variables like the current date etc.
+
+## Steps to define dynamic slicer data
+<Steps>
+1. Open the JavaScript editor
+Go to `Manage > Reports` and click on the name of the report for which you want to edit the dynamic slicer data definition.
+
+2. Edit the displayed JavaScript object
+The editor opens the JavaScript object that belongs to the clicked report. Edit it as required following the format described below in this document in the topic **The format of the JavaScript object defining dynamic slicer pre-selections**.
+
+3. Save the updated JavaScript object
+You **don't need to roll forward** the version of the report after editing the JavaScript definition object.
+</Steps>
+
+## The JavaScript object format
+Below we will describe the format of the JavaScript object in steps.
+
+### High level format
+The basic high-level format of the JavaScript object defining dynamic slicer pre-selections has the following hierarchy `slicers > [report page name] > [slicer name]` like so:
+
+```js showLineNumbers wrap
+var reportDynamicDataDefinition = {
+    slicers: { // A static name
+        page1Name: { // Your report page title converted to a property name
+            slicer1Name: { // Your slicer title converted to a property name
+                // "Slicer format" (see below) here
+            },
+            slicer2Name: {
+                // ...
+            } //,
+			// (more slicers here)
+        },
+        page2Name: {
+            slicer1Name: {
+                // ..
+            }
+        } //,
+		// (more pages here)
+    }
+}
+```
+
+#### Page and slicer names
+<Aside title="Important" type="caution">
+  All the slicers which you wish to reference from the dynamic data JavaScript object **must have titles**!!!
+
+  **That includes all linked slicers!!!** except those that are defined on the 'Cover' page and are not visible on the pages where they are reused.
+
+  Any slicer that is linked to another from a page other than the 'Cover' page **will not be set to the dynamic value** that is set in the dynamic slicer value definition JavaScript object for the other page unless that page where the values are set by the JS object is opened first by the user. You obviously cannot depend on that.
+
+  Thus, you should ideally name the linked slicers the same on all pages where they appear and utilize the `same_as` property as described in the [Object properties](/docs/designers/slicers/objectProperties) page.
+
+  You can still utilize the `same_as` property if the linked slicers do not have the same titles (from which property names are created), but **they do have to have titles!!!**
+</Aside>
+
+
+The property names of page and slicer objects defined in the JS object above are computed with the following rules:
+1. The first letter of the first word of the name is converted to lower case.
+2. The first letters of all words except the first one are capitalized.
+3. All spaces are removed.
+
+So as an example, having a page name like "Page 1 name" would result in the "page1Name" property name as in the example above going through the following transformation:
+
+"**page 1 name**" (step 1) -> "**page 1 Name**" (step 2) -> "**page1Name**" (step 3)
+
+If a designer should give a slicer a title that is intended not to be displayed on the report itself and thus feel like naming it already in a single-word form in either Hungarian or camel-case notation, that will still work like so:
+- Example name: SlicerOne -> Resulting object property name: slicerOne
+- Example name: slicerTwo -> Resulting object property name: slicerTwo
+- Example name: slicerTHREE -> Resulting object property name: slicerTHREE
+
+Note that a name "Slicer THREE" would also result in property name of "slicerTHREE". 
+
+<Aside type="tip">
+  We suggest that to show designers intention to show or not show the slicer title/name on the page to adopt the rule where displayable titles start with a capital letter and words they contain have spaces between them (obviously, as they are being shown to the user) (e.g. "Slicer one" or "Slicer One") and that on the other hand titles not intended to be shown are a single word and start with a lower case letter (e.g. "slicerOne" or "slicer one" or "slicer One").
+  All above slicer titles will result in an object property name being "slicerOne", which has to be reflected in the JavaScript object dynamic definition file **if such a slicer is being referenced**.
+</Aside>
+
+<Aside  type="caution">
+  From the above it should be clear that **if you change the title of a page or the title of a slicer you must update the name of the matching object property name** in the JavaScript definition to reflect that change and be successfully matched.
+</Aside>
+
+### Complete format example
+To see an example of a complete JavaScript definition object format see [this page](/docs/designers/slicers/fullExample).
+
+For a complete list of available properties if the slicer definition objects [go here](/docs/designers/slicers/objectProperties).
+
+
+### Slicer object format
+#### Basic - For list slicers
+```js {4} wrap
+{
+    format: "MMM yyyy",
+    multiselect: true,
+    selectConditions: "(FY() >= value < GetDate(Year(), Month(), 1)) || (Year(value) > 2030)",
+    expression: "DatePeriods({period: 'M', startDate: DateAdd('y', Now(), -3, null, 1), endDate: Now()})"
+}
+```
+
+The basic required property is called `selectConditions` and defines one or more conditions which, when matching a value in the list, will result in pre-selecting that list value.
+
+The value in this list is a **single string** which is expected to contain:
+- At least once the keyword `value`. This keyword represents the value from the list of slicer values that will be tested. The value in the list will be pre-selected if the result of the expression after evaluation is `true`.
+- Usually a combination of one or more [allowed functions](/docs/designers/slicers/allowedFunctions).
+- One or more comparison operators: `<, >, =, !=, <=, >=`
+- One or more logical operators `&&, ||`
+- Grouping parentheses `(, )`
+- Single-quoted strings `'some string'`
+
+No other functions or control characters are allowed in these string values.
+
+Only the `selectConditions` property is really needed. Other properties may be needed depending on the circumstances. 
+
+In the example given above the slicer is a date slicer which should allow multiple selections and thus the `multiselect` property is defined and set to true. Furthermore, because the list contains dates with a specific format the `format` must be specified in order to correctly match those dates with the `selectConditions`. 
+
+The `expression` returns an array of dates which may match (some of) the dates that are already contained in the source table for the slicer, in which case it would not add such dates, but it would add to the slicer list and select any dates that are missing from the underlying source table.
+
+Note though, that if the expression returns items that are not found in the underlying table it will add them to the end o the list, out of order. That is currently how Power BI unfortunately behaves, giving no tools to re-sort that list.
+
+
+Please see the complete list of available object properties [here](/docs/designers/slicers/objectProperties).
+
+#### Basic - For single value slicers
+...like date slicers and date range slicers which have two slicer fields where, however, each one only contains a single value.
+```js {4}
+{
+    conditions: [
+        { keepOriginal: true },
+        { expression: "FY(true)" }
+    ]
+}
+```
+There are no selections for single value slicers. They just have a value. In this case we need to define all the values called "conditions" here separately using simple JavaScript objects "{}" in an array "[]".
+
+If a value is to be kept as it is defined in the report design the object should contain a single property called "keepOriginal" with a value of "true" like so: `{ keepOriginal: true }`.
+
+If a value is to be dynamically calculated then define the expression to calculate it like so: `{ expression: "FY(true)" }`
+
+
+#### Full
+An example of a full slicer dynamic data definition would be:
+```js showLineNumbers wrap
+{
+    target: {
+        table: "Reporting Year",
+        column: "Reporting Year End"
+    }, // IMPORTANT: If specified the table name and column name must be matching exactly to the specification in the report as they are used to create a property name on the base of which matching is done.
+    name: "Reporting Year End", // For purely identification purpose.
+    description: "", // Same as "name".
+    format: "d MMMM",
+    multiselect: false,
+    selectConditions: "value == DateAdd('d', DateAdd('M', DateAdd('y', FY(true, Now()), -1), 13), -1)",
+    values: [ // Will test the "condition" one after another until one is true.
+    // Overrides properties in the main definition (like name, description, type etc.).
+        {
+            name: "LastFY if current less than 2 months",
+            descr: "Calculates the start date of the last financial year if we are less than 2 months into the current financial year.",
+            condition: "FY(DateAdd('M', Now(), -2)) < FY(false, Now())",
+            expression: "DatePeriods({period:'M', startDate: DateAdd('y', FY(false, Now()), -1), arraySize: 12, onlyIfAlreadyPassed:, true, day: 'end'})",
+            selectConditions: "value == DateAdd('d', DateAdd('M', DateAdd('y', FY(true, Now()), -1), 7), -1)"
+            // OPTIONAL: This overrides the parent definition's select condition.
+        }, {
+            name: "CurrentFY",
+            descr: "Returns the first date of a financial year.",
+            condition: null,
+            expression: "DatePeriods({period:'M', step: 1, startDate: FY(false, Now()), endDate: FY(false, Now()), fullMonths: false, ceiling: true})"
+        }
+    ]
+}
+```
+
+The `values` can also be an array of arrays (as opposed to an array of objects in the example above) in which case the sub-arrays should have one to three elements where the first element is the value itself (an absolute value or an expression), the second is a boolean specifying whether or not the first value is a pure string or an expression (if true) and the third should be true if the value should be pre-selected*.
+
+* In fact, that was the intention of this design but Power BI currently does not allow a separate mechanism to add values and separately select them. Thus the third array value will be ignored. All values that are in the list will be shown in the report slicer AND selected at the same time!
+
+If the boolean values are omitted they default to `false`.

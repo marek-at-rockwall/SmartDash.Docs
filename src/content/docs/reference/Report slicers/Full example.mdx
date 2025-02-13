@@ -1,0 +1,141 @@
+---
+title: Full JavaScript example
+description: Shows an example of a full dynamic data JS definition object showcasing several different ways to define different slicers.
+keywords: ["report slicers", "report", "JavaScript", "full example"]
+---
+
+Full dynamic data JavaScript definition object example:
+
+```js showLineNumbers
+{
+    slicers: { // Defines any value list overrides for any slicers in the report.
+        cover: { // The name of the page where we are looking to override slicer values.
+        // This MUST match EXACTLY the page name passed through the "Property name from string:"
+        // tool on the Settings > Tools page (which calls the ConvertToPropertyName function
+        // to get the exact property name that the code will be matching to).
+            resultFromPredefinedFunction: { // The name of the slicer to be dynamically
+            // populated with values.
+                name: "My title",
+                description: "An optional description of the function, its parameters and its return type.",
+                expression: "TestFunction('M', 2, false)",
+                selectConditions: 0 // Can be 0 for nothing, 'all' for all, N for selecting
+                // the first N or -N for selecting last N or a specified condition function
+                // string that will select a value if the condition returns true.
+            },
+            reportingYearEnd: { // Another slicer on the page. (This and the following ones
+            // actually defines the slicers on our current Cover page for the Smart Financials
+            // report.)
+                target: { // Optional unless there are more targets, in which case the containing
+                // object will become one of several in an array ie. the parent property of this
+                // will be an array of these objects, not a single object like this one.
+                    table: "Reporting Year",
+                    column: "Reporting Year End"
+                }, // IMPORTANT: If specified the table name and column name must be matching
+                // exactly to the specification in the report as they are used to create a property
+                // name on the bases of which matching is done.
+                name: "Reporting Year End",
+                description: "",
+                format: "d MMMM",
+                multiselect: false,
+                selectConditions: "value == DateAdd('d', DateAdd('M', DateAdd('y', FY(true), -1), 13), -1)",
+                // FY(getEnd, date) returns the first day of the financial year to which the passed-in
+                // date (or the current date if nothing is passed) belongs, or its end date if 'getEnd' = true.
+                values: [ // Will test the "condition" one after another until one is true.
+                // Overrides properties in the main definition (like name, description, type etc.).
+                    {
+                        name: "LastFY if current less than 2 months",
+                        descr: "Calculates the start date of the last financial year if we are less than 2 months into the current financial year.",
+                        condition: "FY(DateAdd('M', Now(), -2)) < FY()",
+                        // other functions could be CY() = calendar year
+                        expression: "DatePeriods({periodType:'M', startDate: DateAdd('y', FY(), -1), arraySize: 12, onlyIfAlreadyPassed:, true, day: 'end'})", // DatePeriod(definitionObject) where the definition object
+                        // has properties like "step", which is the number of the specified
+                        // period types that the values will differ by from each other (as in
+                        // if the periodType = "d" and step = 3 then each date in the resulting
+                        // array will be 3 days apart from the next one), startDate can be higher
+                        // than end date for a generation of dates with decreasing values, or one
+                        // of them can be null and the order is determined by whether start or end
+                        // was supplied, 'day' can be a number, 'start' = 1 and 'end' = the last
+                        // day of the month in startDate, 'arraySize' is the maximum size of the
+                        // array/list generated; it is optional if both start and end dates are
+                        // specified, but compulsory if one of them is null; if both are specified
+                        // and the arraySize also, the maximum number of items will be the value
+                        // of arraySize even if the other limit date is not reached in
+                        // the generating function. Finally the 'reverseOrder' can reverse the
+                        // final generated list.
+                        selectConditions: "value == DateAdd('d', DateAdd('M', DateAdd('y', FY(true), -1), 7), -1)"
+                        // OPTIONAL: This overrides the parent definition's select condition.
+                    }, {
+                        name: "CurrentFY",
+                        descr: "Returns the first date of a financial year.",
+                        condition: null,
+                        expression: "DatePeriods({periodType:'M', step: 1, startDate: FY(), endDate: FY(), fullMonths: false, ceiling: true})"
+                        //DateDiff(periodType, startDate, endDate, fullMonths, ceiling) ...
+                        // if 'ceiling' is false then the value returned will include the current
+                        // months only if when we are at the middle or past the middle day of the month.
+                    }
+                ]
+            },
+            years: {
+                title: "Years",
+                format: "yyyy",
+                multiselect: true,
+                selectConditions: "all",
+                expression: "DatePeriods({periodType: 'y', startDate: Year() - 3, periods: 4, ceiling: true})"
+                // Can be directly in the root (without being wrapped in "values") if we
+                // only need to specify the 'expression' without a condition, name or
+                // description.
+            },
+            month: {
+                title: "Month",
+                format: "MMM yyyy",
+                multiselect: true,
+                selectConditions: "(FY() >= value < GetDate(Year(), Month(), 1)) || (Year(value) > 2030)",
+                expression: "DatePeriods({periodType: 'M', startDate: DateAdd('y', Now(), -3, null, 1), endDate: Now()})"
+                // Here the DatePeriods generates the periods between start and
+                // end date where the start date here is calculated by
+                // DateAdd(periodType, baseDate, number, specificMonth, specificDay)
+                // which avoids having to calculate DateAdd more than one time inside
+                // of GetDate(year, month, day)
+            }
+        },
+        page2: {
+            exampleSlicer1: {
+                title: "Slicer 1",
+                multiselect: true,
+                values: [ // The list of values can also be predefined where each value
+                // is calculated separately or where it's value is given as a static value.
+                // This list is an array of arrays.
+                    ["FormatDate(Now(), 'd MM')", true, false], // The member arrays
+                    // define the value, whether the value is an expression or a static
+                    // string and, if it should be pre-selected. These boolean values can
+                    // be omitted to default to false. If the value is an expression then
+                    // if it starts with a dot (.), then it is a direct function.
+                    ["FormatDate(DateAdd('M', Now(), -1, 'd MMMM'))", true],
+                    ["select a date", false, true]
+                ]
+            },
+            dateRangeSlicer: {
+                description: "A slicer containing two single-value fields: Date From and Date To. The first will always keep the value defined by the report designer, but the second uses the FY() - FinancialYear function which gets the end date of the current financial year if the first parameter is `true` (and can get a different financial year if a second parameter is passed in the form of a date belonging to the desired financial year).", 
+                conditions: [
+                    { keepOriginal: true },
+                    { expression: "FY(true)" }
+                ]
+            }
+        },
+		page3: {
+			same_as: [
+				["page2", "exampleSlicer1", "dateRangeSlicer"]
+			]
+		},
+		page4: {
+			exampleSlicer333: {
+				same_as: ["page2", "exampleSlicer1"]
+			},
+			dateRangeSlicer: {
+				same_as: ["page2", "dateRangeSlicer"]
+			}
+		}
+    }
+}
+```
+

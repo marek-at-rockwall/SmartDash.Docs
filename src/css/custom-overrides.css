@@ -1,0 +1,10 @@
+.site-title span{
+    color: white;
+    opacity: .5;
+    left: -.6em;
+    position: relative;
+}
+
+:root {
+    --sl-content-width: 60rem;
+  }
