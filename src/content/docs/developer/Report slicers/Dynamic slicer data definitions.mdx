@@ -6,18 +6,20 @@ keywords: ["report slicers", "report", "JavaScript", "object"]
 
 import { Steps, Aside, Code } from '@astrojs/starlight/components';
 
-The SmartDash interface allows the report designers to define what value a specific slicer should hold upon opening the report or what items in specific report list slicers should be pre-selected dynamically based on variables like the current date etc.
+The SmartDash interface allows the report designers to define what value a specific slicer should hold upon opening the report or what items in specific report list slicers should be pre-selected dynamically based on variables like the current date etc. 
 
 ## Steps to define dynamic slicer data
 <Steps>
-1. Open the JavaScript editor
+
+1. <b>Open the JavaScript editor</b><br />
 Go to `Manage > Reports` and click on the name of the report for which you want to edit the dynamic slicer data definition.
 
-2. Edit the displayed JavaScript object
+2. <b>Edit the displayed JavaScript object</b><br />
 The editor opens the JavaScript object that belongs to the clicked report. Edit it as required following the format described below in this document in the topic **The format of the JavaScript object defining dynamic slicer pre-selections**.
 
-3. Save the updated JavaScript object
+3. <b>Save the updated JavaScript object</b><br />
 You **don't need to roll forward** the version of the report after editing the JavaScript definition object.
+
 </Steps>
 
 ## The JavaScript object format
@@ -89,7 +91,9 @@ Note that a name "Slicer THREE" would also result in property name of "slicerTHR
 
 ### Complete format example
 To see an example of a complete JavaScript definition object format see [this page](/reference/report-slicers/full-example/).
+To see an example of a complete JavaScript definition object format see [this page](/reference/report-slicers/full-example/).
 
+For a complete list of available properties if the slicer definition objects [go here](/reference/report-slicers/object-properties/).
 For a complete list of available properties of the slicer definition objects [go here](/reference/report-slicers/object-properties/).
 
 
@@ -109,6 +113,7 @@ The basic required property is called `selectConditions` and defines one or more
 The value in this list is a **single string** which is expected to contain:
 - At least once the keyword `value`. This keyword represents the value from the list of slicer values that will be tested. The value in the list will be pre-selected if the result of the expression after evaluation is `true`.
 - Usually a combination of one or more [allowed functions](/reference/report-slicers/allowed-functions/).
+- Usually a combination of one or more [allowed functions](/reference/report-slicers/allowed-functions/).
 - One or more comparison operators: `<, >, =, !=, <=, >=`
 - One or more logical operators `&&, ||`
 - Grouping parentheses `(, )`
@@ -125,6 +130,7 @@ The `expression` returns an array of dates which may match (some of) the dates t
 Note though, that if the expression returns items that are not found in the underlying table it will add them to the end o the list, out of order. That is currently how Power BI unfortunately behaves, giving no tools to re-sort that list.
 
 
+Please see the complete list of available object properties [here](/reference/report-slicers/object-properties/).
 Please see the complete list of available object properties [here](/reference/report-slicers/object-properties/).
 
 #### Basic - For single value-type slicers

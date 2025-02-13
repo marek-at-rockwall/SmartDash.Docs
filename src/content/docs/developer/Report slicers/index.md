@@ -19,6 +19,7 @@ There are several different kind of slicers:
 ## Slicer titles
 **All slicers** that you want to reference from the dynamic data JavaScript definition object **must have titles**. These titles are converted to a single-word object properties during the code matching process as described in the 'Page and slicer names' topic on the [Dynamic slicer definition](/developer/report-slicers/dynamic-slicer-data-definitions/) page.
 
+
 ## Dynamic slicer lists
 The list of values presented in list slicers may be fixed or it can change depending on different variables like the current date etc. These values are populated from the underlying tables but can also be populated using a dynamic data formulas as described below.
 
