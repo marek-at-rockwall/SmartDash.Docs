@@ -6,8 +6,8 @@ import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://marek-at-rockwall.github.com",
-	base: "/SmartDash.Docs",
+	site: "docs.vsechovsky.com",
+	base: "/",
 	integrations: [
 		starlight({
 			title: "docs",
