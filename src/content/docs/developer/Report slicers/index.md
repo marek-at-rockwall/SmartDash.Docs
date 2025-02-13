@@ -27,6 +27,4 @@ The values that are required to be pre-selected upon opening of the report will 
 ## Dynamic slicer pre-selections
 The human designer of the report can pre-select options in data slicers in the Power BI designer's design view. However, if these are based on the current date and possibly other variables it is not feasible to keep updating the report design repeatedly just to update the pre-selections. This practice would most likely result in late updates and thus inconsistent report behavior, apart from being difficult to keep up with.
 
-To resolve this issue SmartDash implements a **dynamic data pre-selection definition** which is done with the use of a **JavaScript object** whose format is described in the [next topic](/docs/designers/slicers/dynamicData).
-
-x
+To resolve this issue SmartDash implements a **dynamic data pre-selection definition** which is done with the use of a **JavaScript object** whose format is described in the [next topic](/docs/designers/slicers/dynamicData). 
