@@ -17,6 +17,8 @@
     "astro": "^5.1.5",
     "expressive-code-color-chips": "^0.1.2",
     "sharp": "^0.32.5",
+    "starlight-links-validator": "^0.14.2",
+    "starlight-showcases": "^0.3.0",
     "unplugin-icons": "^22.0.0"
   },
   "devDependencies": {

@@ -3,10 +3,11 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 import icon from 'astro-icon';
+import starlightLinksValidator from 'starlight-links-validator';
 
 // https://astro.build/config
 export default defineConfig({
-	site: "http://docs.vsechovsky.com",
+	site: "https://docs.vsechovsky.com",
 	base: "/",
 	integrations: [
 		starlight({
@@ -33,6 +34,7 @@ export default defineConfig({
 				themes: ['slack-dark', 'light-plus'],
 			},
 			customCss: ['./src/css/custom-overrides.css'],
+			plugins: [starlightLinksValidator()],
 			sidebar: [
 				// {
 				// 	label: 'User guides',

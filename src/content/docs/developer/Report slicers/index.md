@@ -17,7 +17,7 @@ There are several different kind of slicers:
 - **???**:
 
 ## Slicer titles
-**All slicers** that you want to reference from the dynamic data JavaScript definition object **must have titles**. These titles are converted to a single-word object properties during the code matching process as described in the 'Page and slicer names' topic on the [Dynamic slicer definition](/docs/designers/slicers/dynamicData) page.
+**All slicers** that you want to reference from the dynamic data JavaScript definition object **must have titles**. These titles are converted to a single-word object properties during the code matching process as described in the 'Page and slicer names' topic on the [Dynamic slicer definition](/developer/report-slicers/dynamic-slicer-data-definitions/) page.
 
 ## Dynamic slicer lists
 The list of values presented in list slicers may be fixed or it can change depending on different variables like the current date etc. These values are populated from the underlying tables but can also be populated using a dynamic data formulas as described below.
@@ -27,4 +27,4 @@ The values that are required to be pre-selected upon opening of the report will 
 ## Dynamic slicer pre-selections
 The human designer of the report can pre-select options in data slicers in the Power BI designer's design view. However, if these are based on the current date and possibly other variables it is not feasible to keep updating the report design repeatedly just to update the pre-selections. This practice would most likely result in late updates and thus inconsistent report behavior, apart from being difficult to keep up with.
 
-To resolve this issue SmartDash implements a **dynamic data pre-selection definition** which is done with the use of a **JavaScript object** whose format is described in the [next topic](/docs/designers/slicers/dynamicData).
+To resolve this issue SmartDash implements a **dynamic data pre-selection definition** which is done with the use of a **JavaScript object** whose format is described in the [next topic](/developer/report-slicers/dynamic-slicer-data-definitions/).
