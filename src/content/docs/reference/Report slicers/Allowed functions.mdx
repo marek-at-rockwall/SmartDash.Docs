@@ -9,14 +9,14 @@ import { Aside } from '@astrojs/starlight/components';
 The following is a list of functions that report designers can use in `expression`, `selectConditions`, `conditions` and possibly other property definitions of the JavaScript slicer dynamic data definition object.
 
 <hr />
-## Now()
+## `Now()`
 Returns the current date and time.
 
 <hr />
-## DateAdd (periodType, date, number)
+## `DateAdd (periodType, date, number)`
 Adds a defined number of periods to a date.
 
-`periodType` [string] options:
+**`periodType`** [string] options:
 - **y** = year
 - **M** = month
 - **w** = week
@@ -26,52 +26,59 @@ Adds a defined number of periods to a date.
 - **s** = second
 - **ms** = millisecond
 
-`date` [date or date string] is a date to add to.
-`number` [integer] is the number of period to add (or subtract if it is a negative integer)
+**`date`** [date or date string] is a date to add to.
+
+**`number`** [integer] is the number of period to add (or subtract if it is a negative integer)
 
 <Aside title="Example" type="tip">
-  `DateAdd('M', Now(), -3)`
+  ```
+  DateAdd('M', Now(), -3)
+  ```
 
   Will subtract three months from the current date.
 </Aside>
 
 <hr />
-## DateDiff (periodType, start, end, completePeriodsOnly)
+## `DateDiff (periodType, start, end, completePeriodsOnly)`
 Returns a number representing the number of periods that fit between the `start` and `end` dates.
 
-`periodType` [string] is the same as in the `DateAdd` function.
+**`periodType`** [string] is the same as in the `DateAdd` function.
 
-`start` and `end` [date or date string] are the two limit dates between which we want to know the number of periods.
+**`start`** and **`end`** [date or date string] are the two limit dates between which we want to know the number of periods.
 
-`completePeriodsOnly` [boolean] If `true` it will return the number of full periods that fit between the limit dates. If `false` (default), common rounding will be applied.
+**`completePeriodsOnly`** [boolean] If `true` it will return the number of full periods that fit between the limit dates. If `false` (default), common rounding will be applied.
 
 <Aside title="Example" type="tip">
-  `DateDiff('M', '23/Nov/2024 14:55', '1/Dec/2024 18:01', true)`
+  ``` js
+  DateDiff('M', '23/Nov/2024 14:55', '1/Dec/2024 18:01', true)
+  ```
 
   Will return 0 since there is not a single full months between the limit dates.
 </Aside>
 
 <hr />
-## GetDate (date, adjustForTimezone)
+## `GetDate (date, adjustForTimezone)`
 Converts a date string a an actual date object.
 
-`date` is the actual date string to convert. These can be in the ISO format as well or a Unix date integer.
+**`date`** is the actual date string to convert. These can be in the ISO format as well or a Unix date integer.
 
-`adjustForTimezone` will adjust the date to the current time zone. This can be used if the source string is in a UTC format but the actual date/time needs to be presented for the current time zone.
+**`adjustForTimezone`** will adjust the date to the current time zone. This can be used if the source string is in a UTC format but the actual date/time needs to be presented for the current time zone.
 
 <Aside title="Example" type="tip">
-  `GetDate('20240915T155300Z', true)`
+  ```
+  GetDate('20240915T155300Z', true)
+  ```
 
   Will return '15 September 2024, 07:53:00' if the browser was running in Brisbane, Australia.
 </Aside>
 
 <hr />
-## FormatDate (date, format, adjustForTimezone)
+## `FormatDate (date, format, adjustForTimezone)`
 Formats a date object to a string of a defined format.
 
-`date` [date or date string] is the date to be formatted. It can be a date object or date string, in which case the GetDate() function described above is used internally to convert it to a date object first.
+**`date`** [date or date string] is the date to be formatted. It can be a date object or date string, in which case the GetDate() function described above is used internally to convert it to a date object first.
 
-`format` [string] is a format to be used like 'd MMM yy H:mm' which will result in a date string like: '9 Jan 24 6:58' if the passed-in date is '9 January 2024, 6:58:33.254 AM'.
+**`format`** [string] is a format to be used like 'd MMM yy H:mm' which will result in a date string like: '9 Jan 24 6:58' if the passed-in date is '9 January 2024, 6:58:33.254 AM'.
 
 The formatting options are:
 `d`, `dd`, `ddd` or `dddd` for the day to be displayed as '9', '09', 'Sat' or 'Saturday'
@@ -84,65 +91,73 @@ The formatting options are:
 `t` or `tt` for the AM/PM time to be shown as 'A' or 'AM'
 
 <Aside title="Example" type="tip">
-  `FormatDate('20240915T155300Z', 'ddd htt', true)`
+  ```
+  FormatDate('20240915T155300Z', 'ddd htt', true)
+  ```
 
   Will return 'Sun 7AM' if the browser was running in Brisbane, Australia.
 </Aside>
 
 <hr />
-## FY (getEnd, date)
+## `FY (getEnd, date)`
 Returns the start or end of the financial year to which the `date` belongs to.
 
-`getEnd` If `true` this will result in returning the last day of the financial year. If `false` or omitted it will return the first day of the financial year.
+**`getEnd`** If `true` this will result in returning the last day of the financial year. If `false` or omitted it will return the first day of the financial year.
 
-`date` is the date we want to find a financial year for.
+**`date`** is the date we want to find a financial year for.
 
 <Aside title="Example" type="tip">
-  `FY(true, Now())` = `FY(true)`
+   ```
+   FY(true, Now())` = `FY(true)
+   ```
 
   Will return '30 June 2025' if the current organization was from Australia where the financial year starts in July and if the current date was  for example 1st December 2024.
 </Aside>
 
 <hr />
-## CY (getEnd, date)
+## `CY (getEnd, date)`
 Returns the first or last day of the current year.
 
-`getEnd` If `true` this will result in returning the last day of the current year which will always be 31 December. If `false` or omitted it will return the first day of the year will be returned, which will always be 1 January.
+**`getEnd`** If `true` this will result in returning the last day of the current year which will always be 31 December. If `false` or omitted it will return the first day of the year will be returned, which will always be 1 January.
 
-`date` is the date we want to find a current year for.
+**`date`** is the date we want to find a current year for.
 
 <Aside title="Example" type="tip">
-  `CY(Now())` = `CY()`
+  ```
+  CY(Now())` = `CY()
+  ```
 
   Will return '1 January 2024' if the current date was  for example 1st December 2024.
 </Aside>
 
 <hr />
-## Year (date)
+## `Year (date)`
 Returns an integer representing the date's year.
 
 <hr />
-## Month (date)
+## `Month (date)`
 Returns an integer representing the date's month.
 
 <hr />
-## Day (date)
+## `Day (date)`
 Returns an integer representing the date's day.
 
 <hr />
-## GetMonthsSinceStartOfFinancialYear (includeCurrentUnfinishedMonth, orMin, date, reverseOrder)
+## `GetMonthsSinceStartOfFinancialYear (includeCurrentUnfinishedMonth, orMin, date, reverseOrder)`
 Returns and integer representing the number of months that has passed since the start of financial year.
 
-`includeCurrentUnfinishedMonth` Set to `true` if the current unfinished month should be included in the count.
+**`includeCurrentUnfinishedMonth`** Set to `true` if the current unfinished month should be included in the count.
 
-`orMin` If specified than the count will start from the start of the previous financial year if the number of months since the start of the current financial year is less then this number.
+**`orMin`** If specified than the count will start from the start of the previous financial year if the number of months since the start of the current financial year is less then this number.
 
-`date` An optional date to which to count the months. If omitted the current date is automatically used.
+**`date`** An optional date to which to count the months. If omitted the current date is automatically used.
 
-`reverseOrder` Will reverse the order of the dates in the resulting array, going from the youngest to the oldest.
+**`reverseOrder`** Will reverse the order of the dates in the resulting array, going from the youngest to the oldest.
 
 <Aside title="Example" type="tip">
-  `GetMonthsSinceStartOfFinancialYear(true, 3, '2 Aug 2024')`
+  ```
+  GetMonthsSinceStartOfFinancialYear(true, 3, '2 Aug 2024')
+  ```
 
   Will return the following array of dates
 ```js
@@ -158,56 +173,58 @@ Returns and integer representing the number of months that has passed since the 
 </Aside>
 
 <hr />
-## DatePeriods (parameterObject)
+## `DatePeriods (parameterObject)`
 This is a **generative function** which generates an array of date periods.
 
 Since this function has too many possible input parameters and its combinations a parameter object is used instead to specify the required combination of these parameters.
 
 ### The parameterObject properties
 
-`periodType` The type of the period to generate. The options here are the same as for the `DateAdd` function described also in this document.
+**`periodType`** The type of the period to generate. The options here are the same as for the `DateAdd` function described also in this document.
 
-`step` Specifies the number of steps to take for each following date generated. Can be a negative integer if each next date should be smaller as opposed to higher than the last.
+**`step`** Specifies the number of steps to take for each following date generated. Can be a negative integer if each next date should be smaller as opposed to higher than the last.
 
 <Aside title="DO NOT" type="danger">
 Do not combine negative value in `step` with a negative value in `periods`!!!
 </Aside>
 
-`startDate` The start date from which to start generating the values. Can be omitted if at least the `endDate` is specified.
+**`startDate`** The start date from which to start generating the values. Can be omitted if at least the `endDate` is specified.
 
-`endDate` The end date past which the generated dates should not reach. Can be omitted if at least the `startDate` is specified.
+**`endDate`** The end date past which the generated dates should not reach. Can be omitted if at least the `startDate` is specified.
 
 <Aside title="Note that" type="note">
 ...the start date can be higher than end date if you wish to have the dates generated in descending order.
 </Aside>
 
-`reverseOrder` Set to `true` if you wish to have the dates generated in reverse order. This property may be useful if you only can specify the start or end date, but not both.
+**`reverseOrder`** Set to `true` if you wish to have the dates generated in reverse order. This property may be useful if you only can specify the start or end date, but not both.
 
-`periods` Lets you specify the maximum number of periods to generate. This parameter is **compulsory if only one of the limit dates (start or end) is specified**. It can be a negative number if the date sequence should go down instead of up from the current or passed-in date. If this value is negative it is the same as having a negative `step` value. However, **do not combine negative value in `periods` with a negative value in `step`!!!**
+**`periods`** Lets you specify the maximum number of periods to generate. This parameter is **compulsory if only one of the limit dates (start or end) is specified**. It can be a negative number if the date sequence should go down instead of up from the current or passed-in date. If this value is negative it is the same as having a negative `step` value. However, **do not combine negative value in `periods` with a negative value in `step`!!!**
 
 
 <Aside title="Also note that" type="note">
 ...the maximum number of dates in the resulting array may be smaller than you specified in the `periods` parameter if you also have both of the limit dates specified. **The period generation ends once either the number specified in `periods` is reached or the other limit date.**
 </Aside>
 
-`includeCurrentPeriod` If `true` then the current unfinished period will be included in the list of generated dates.
+**`includeCurrentPeriod`** If `true` then the current unfinished period will be included in the list of generated dates.
 
-`resetTime` If `true` (default) than the time will be set to 00:00:00. If `false` the current time at the time of this function call will be kept.
+**`resetTime`** If `true` (default) than the time will be set to 00:00:00. If `false` the current time at the time of this function call will be kept.
 
-`day` Lets you specify a concrete day in a month in the generated dates.
+**`day`** Lets you specify a concrete day in a month in the generated dates.
 
-`month` Lets you specify a concrete month in a year in the generated dates.
+**`month`** Lets you specify a concrete month in a year in the generated dates.
 
-`year` Lets you specify a concrete year in the generated dates.
+**`year`** Lets you specify a concrete year in the generated dates.
 
-`hour` Lets you specify a concrete hour in the generated dates.
+**`hour`** Lets you specify a concrete hour in the generated dates.
 
-`minute` Lets you specify a concrete minute in the generated dates.
+**`minute`** Lets you specify a concrete minute in the generated dates.
 
-`second` Lets you specify a concrete second in the generated dates.
+**`second`** Lets you specify a concrete second in the generated dates.
 
 <Aside title="Example" type="tip">
-  `DatePeriods({periodType: 'y', startDate: Now(), periods: -3})`
+  ```
+  DatePeriods({periodType: 'y', startDate: Now(), periods: -3})
+  ```
 
   Will return an array of past three years starting from the current date. So if Now() is "3 January 2025, 6:58:33.254 AM" then this function will produce the following array:
   ```js
@@ -221,16 +238,18 @@ Do not combine negative value in `step` with a negative value in `periods`!!!
 </Aside>
 
 <hr />
-## GetNthMember(array, index)
+## `GetNthMember(array, index)`
 Returns a single value from an array found at index passed in the second parameter.
 
-`array` Any array of values from which a single value will be selected.
+**`array`** Any array of values from which a single value will be selected.
 
-`index` The index of the array item to be returned. Can be a negative value in which case the actual index is counted from the end of the array.
+**`index`** The index of the array item to be returned. Can be a negative value in which case the actual index is counted from the end of the array.
 
 
 <Aside title="Example" type="tip">
-  `GetNthMember(GetMonthsSinceStartOfFinancialYear(false, 1), -1)`
+  ```
+  GetNthMember(GetMonthsSinceStartOfFinancialYear(false, 1), -1)
+  ```
 
   Will return the last date from the array returned by the `GetMonthsSinceStartOfFinancialYear` function.
 </Aside>

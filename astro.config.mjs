@@ -20,7 +20,7 @@ export default defineConfig({
 				maxHeadingLevel: 4
 			},
 			editLink: {
-				baseUrl: 'https://github.com/withastro/starlight/edit/main/',
+				baseUrl: 'https://github.com/marek-at-rockwall/SmartDash.Docs/edit/main/',
 			},
 			social: {
 				github: 'https://github.com/withastro/starlight',
