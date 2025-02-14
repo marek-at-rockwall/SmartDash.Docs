@@ -4,7 +4,8 @@ import starlight from '@astrojs/starlight';
 
 import icon from 'astro-icon';
 import starlightLinksValidator from 'starlight-links-validator';
-import starlightBlog from 'starlight-blog'
+import starlightBlog from 'starlight-blog';
+import starlightImageZoom from 'starlight-image-zoom';
 
 // https://astro.build/config
 export default defineConfig({
@@ -35,7 +36,7 @@ export default defineConfig({
 				themes: ['slack-dark', 'light-plus'],
 			},
 			customCss: ['./src/css/custom-overrides.css'],
-			plugins: [starlightLinksValidator(), starlightBlog()],
+			plugins: [starlightLinksValidator(), starlightBlog(), starlightImageZoom()],
 			sidebar: [
 				// {
 				// 	label: 'User guides',
