@@ -21,6 +21,11 @@ This page provides links to the documentation of this very documentation site te
 - [Image Zoom](https://starlight-image-zoom.vercel.app/getting-started/) - adds image zoom capabilities to the documentation and blogs.
     - [Demo](https://starlight-image-zoom.vercel.app/demo/)
     - [Source](https://github.com/HiDeoo/starlight-image-zoom?tab=readme-ov-file)
+- [Heading Badges](https://starlight-heading-badges.vercel.app/getting-started/) - enables badges to be easily added to headings and thus to the TOC sidebar, too.
+    - [Demo](https://starlight-heading-badges.vercel.app/demo/)
+    - [Source](https://github.com/HiDeoo/starlight-heading-badges?tab=readme-ov-file)
+- [Site Graph](https://fevol.github.io/starlight-site-graph/configuration/general/) - shows a page dependency graph in the sidebar.
+    - DISABLED: Maybe if the graph was under the "On this page" list or could be hidden and only the backlinks enabled, which would also be useful.
 
 
 
