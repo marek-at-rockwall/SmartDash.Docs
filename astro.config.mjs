@@ -8,6 +8,8 @@ import starlightBlog from 'starlight-blog';
 import starlightImageZoom from 'starlight-image-zoom';
 import starlightHeadingBadges from 'starlight-heading-badges';
 //import starlightSiteGraph from 'starlight-site-graph';
+import starlightSidebarTopics from 'starlight-sidebar-topics';
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -40,72 +42,89 @@ export default defineConfig({
 			customCss: ['./src/css/custom-overrides.css'],
 			plugins: [
 				starlightLinksValidator(),
-				starlightBlog(),
+				//starlightBlog(),
 				starlightImageZoom(),
 				starlightHeadingBadges(),
 				//starlightSiteGraph()
-			],
-			sidebar: [
-				// {
-				// 	label: 'User guides',
-				// 	items: [
-				// 		// Each item here is one entry in the navigation menu.
-				// 		{
-				// 			label: 'User guides',
-				// 			autogenerate: { directory: 'user' }
-				// 		},
-				// 	],
-				// },
-				// {
-				// 	label: 'Guides',
-				// 	items: [
-				// 		// Each item here is one entry in the navigation menu.
-				// 		{ label: 'Example Guide', slug: 'guides/example' },
-				// 	],
-				// },
-				{
-					label: 'Get started',
-					autogenerate: { directory: 'start' },
-				},
-				{
-					label: 'User guide',
-					collapsed: true,
-					autogenerate: { directory: 'user' },
-				},
-				{
-					label: 'Report developer guide',
-					collapsed: true,
-					autogenerate: { directory: 'developer' },
-				},
-				{
-					label: 'Reference',
-					collapsed: true,
-					items: [
-						{
-							label: 'Report slicers',
-							collapsed: true,
-							items: [
-								{
-									label: 'Object properties',
-									link: 'reference/report-slicers/object-properties'
-								},
-								{
-									label: 'Allowed functions',
-									link: 'reference/report-slicers/allowed-functions'
-								},
-								{
-									label: 'Full example',
-									link: 'reference/report-slicers/full-example'
-								}
-							]
-						},
-						{
-							label: 'Documentation reference',
-							link: 'reference/documentation-reference',
-							attrs: { style: 'font-style: italic'}
-						}
-					],
-				},
+				starlightSidebarTopics(
+[
+	// A topic representing a guide section of your project.
+	{
+		label: 'End User Guides',
+		icon: 'open-book',
+		// The page to link to when the topic is clicked.
+		link: '/user/',
+		items: [
+			'user', 'start'
+		]
+	},
+	{
+		label: 'Developer Docs',
+		icon: 'puzzle',
+		// The page to link to when the topic is clicked.
+		link: '/developer/',
+		// The sidebar configuration for the topic.
+		items: [
+			{
+				label: 'Guide',
+				items: [
+					{
+						label: 'Report slicers',
+						collapsed: false,
+						items: [
+							{
+								label: 'About slicers',
+								link: 'developer/guide/report-slicers'
+							},
+							{
+								label: 'Dynamic slicer data definition',
+								link: 'developer/guide/report-slicers/dynamic-slicer-data-definitions'
+							},
+							{
+								label: 'Slicer reference links',
+								link: 'developer/guide/report-slicers/slicer-reference'
+							}
+						]
+					},
+					{
+						label: 'Documentation reference',
+						link: 'developer/documentation-reference',
+						attrs: { style: 'font-style: italic'}
+					}
+				]
+			},
+			{
+				label: 'Reference',
+				items: [
+					{
+						label: 'Report slicers',
+						collapsed: false,
+						items: [
+							{
+								label: 'Object properties',
+								link: 'developer/reference/report-slicers/object-properties'
+							},
+							{
+								label: 'Allowed functions',
+								link: 'developer/reference/report-slicers/allowed-functions'
+							},
+							{
+								label: 'Full example',
+								link: 'developer/reference/report-slicers/full-example'
+							}
+						]
+					},
+					{
+						label: 'Documentation reference',
+						link: 'developer/documentation-reference',
+						attrs: { style: 'font-style: italic'}
+					}
+				]
+			}
+		]
+	}
+]
+				)
 			],
 		}),
 		icon()

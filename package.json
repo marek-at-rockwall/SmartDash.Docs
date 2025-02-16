@@ -22,6 +22,7 @@
     "starlight-image-zoom": "^0.10.1",
     "starlight-links-validator": "^0.14.2",
     "starlight-showcases": "^0.3.0",
+    "starlight-sidebar-topics": "^0.3.0",
     "starlight-site-graph": "^0.2.2",
     "unplugin-icons": "^22.0.0"
   },
