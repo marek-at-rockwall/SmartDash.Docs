@@ -122,6 +122,31 @@ export default defineConfig({
 				]
 			}
 		]
+	},
+	{
+		label: 'Blogs',
+		icon: 'pen',
+		link: '/blog/',
+		items: [
+			{
+				label: 'Featured',
+				items: [
+
+				]
+			},
+			{
+				label: 'Recent',
+				items: [
+
+				]
+			},
+			{
+				label: 'All',
+				items: [
+
+				]
+			},
+		]
 	}
 ]
 				)
